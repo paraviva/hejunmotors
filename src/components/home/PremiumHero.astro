@@ -1,72 +1,48 @@
 ---
-// HEJUN MOTORS - Premium Hero Slider (Updated with Banner 1 & 2)
-// 专注于核心产品线展示，去除了数据展示和分割线。
 import Button from '../ui/Button.astro';
 ---
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 <section class="relative overflow-hidden bg-neutral-900 text-white group">
-  <div class="swiper heroSwiper w-full h-[80vh] lg:h-[95vh]">
+  <div class="swiper heroSwiper w-full h-[85vh]">
     <div class="swiper-wrapper">
       
-      <div class="swiper-slide relative flex items-center justify-center">
-        <img 
-          src="/image/banner1.webp" 
-          alt="HEJUN High-Efficiency PMSM Motors" 
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-        <div class="absolute inset-0 bg-black/45 z-10"></div>
-        
+      <div class="swiper-slide relative">
+        <img src="/image/banner1.webp" class="absolute inset-0 w-full h-full object-cover" alt="HEJUN Banner 1" />
+        <div class="absolute inset-0 bg-black/40 z-10"></div>
         <div class="container mx-auto relative z-20 h-full flex items-center px-6 lg:px-16">
-          <div class="max-w-4xl space-y-6 animate-fadeInUp text-left">
-            <div class="inline-block px-4 py-2 bg-secondary-300 text-neutral-900 rounded-full text-sm font-bold mb-4">
-              🚀 High-Efficiency
-            </div>
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-              PMSM & Industrial <span class="block text-secondary-300">Synchronous Motors</span>
-            </div>
-            <p class="text-xl md:text-2xl text-neutral-100 max-w-2xl">
-              Precision-engineered motor solutions. **Up to 30% Energy Saving** for modern industrial automation and global production lines.
+          <div class="max-w-4xl space-y-6">
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight animate-fadeInUp">
+              Next-Gen Industrial <br/>
+              <span class="text-secondary-400">Synchronous Motors</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-neutral-200 max-w-2xl animate-fadeInUp" style="animation-delay: 0.2s">
+              Precision-engineered for 30% energy saving and superior reliability in extreme industrial environments.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 pt-6">
-              <Button href="/motor" size="lg" variant="secondary" class="font-bold">
-                View Motors
-              </Button>
-              <Button href="/rfq" size="lg" variant="outline" class="border-white! text-white! hover:bg-white/10!">
-                Request Quote
-              </Button>
+            <div class="flex gap-4 pt-4 animate-fadeInUp" style="animation-delay: 0.4s">
+              <Button href="/motor" size="lg" variant="secondary" class="font-bold">View Products</Button>
+              <Button href="/rfq" size="lg" variant="outline" class="text-white! border-white! hover:bg-white/10!">Request Quote</Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="swiper-slide relative flex items-center justify-center">
-        <img 
-          src="/image/banner2.webp" 
-          alt="HEJUN Paper Machinery Solutions" 
-          class="absolute inset-0 w-full h-full object-cover"
-        />
+      <div class="swiper-slide relative">
+        <img src="/image/banner2.webp" class="absolute inset-0 w-full h-full object-cover" alt="HEJUN Banner 2" />
         <div class="absolute inset-0 bg-black/50 z-10"></div>
-        
         <div class="container mx-auto relative z-20 h-full flex items-center px-6 lg:px-16">
-          <div class="max-w-4xl space-y-6 animate-fadeInUp text-left">
-            <div class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-full text-sm font-semibold mb-4">
-              🛠️ Architect of Efficiency
-            </div>
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-              Precision Motion <span class="block text-secondary-300">Solutions Architect</span>
-            </div>
-            <p class="text-xl md:text-2xl text-neutral-100 max-w-3xl">
-              We integrate advanced motor technology with **industrial intelligence**, driving efficiency across global <strong>Paper Production Lines</strong>.
+          <div class="max-w-4xl space-y-6">
+            <h1 class="text-5xl md:text-7xl font-bold leading-tight animate-fadeInUp">
+              Precision Motion <br/>
+              <span class="text-secondary-400">Solutions Architect</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-neutral-200 max-w-3xl animate-fadeInUp" style="animation-delay: 0.2s">
+              We integrate advanced motor technology with industrial intelligence, driving efficiency across global paper production lines.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 pt-6">
-              <Button href="/paper-machine" size="lg" variant="secondary" class="font-bold">
-                Learn More
-              </Button>
-              <Button href="/rfq" size="lg" variant="outline" class="border-white! text-white! hover:bg-white/10!">
-                Request Quote
-              </Button>
+            <div class="flex gap-4 pt-4 animate-fadeInUp" style="animation-delay: 0.4s">
+              <Button href="/paper-machine" size="lg" variant="secondary" class="font-bold">Learn More</Button>
+              <Button href="/rfq" size="lg" variant="outline" class="text-white! border-white! hover:bg-white/10!">Request Quote</Button>
             </div>
           </div>
         </div>
@@ -74,46 +50,47 @@ import Button from '../ui/Button.astro';
 
     </div>
     
-    <div class="swiper-button-next text-white opacity-0 group-hover:opacity-70 transition"></div>
-    <div class="swiper-button-prev text-white opacity-0 group-hover:opacity-70 transition"></div>
-    
-    <div class="swiper-pagination text-secondary-300"></div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-next !text-white opacity-0 group-hover:opacity-100 transition"></div>
+    <div class="swiper-button-prev !text-white opacity-0 group-hover:opacity-100 transition"></div>
   </div>
-  
 </section>
 
 <script is:inline src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script is:inline>
-  // 等待页面加载完成
-  document.addEventListener('DOMContentLoaded', () => {
-    new Swiper(".heroSwiper", {
-      loop: true,               // 循环播放
-      autoplay: {               // 自动播放
-        delay: 6000,           // 6秒切换一次，让客户有时间看清文案
+  function initSwiper() {
+    if (window.myHeroSwiper) {
+      window.myHeroSwiper.destroy(true, true);
+    }
+    window.myHeroSwiper = new Swiper(".heroSwiper", {
+      loop: true,
+      effect: 'fade',
+      speed: 1200,
+      autoplay: {
+        delay: 6000,
         disableOnInteraction: false,
       },
-      pagination: {              // 分页点
+      pagination: {
         el: ".swiper-pagination",
         clickable: true,
       },
-      navigation: {              // 左右按钮
+      navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       },
-      effect: 'fade',           // 切换效果：淡入淡出，最有大厂的高级感
-      speed: 1200,              // 切换速度
     });
-  });
+  }
+
+  document.addEventListener('DOMContentLoaded', initSwiper);
+  document.addEventListener('astro:page-load', initSwiper);
 </script>
 
 <style>
-  /* 轮播图圆点颜色设为你的辅助金黄色 */
   :root { --swiper-theme-color: #F8BB1B; }
-  .swiper-pagination-bullet { background: white; opacity: 0.5; }
-  .swiper-pagination-bullet-active { opacity: 1; }
+  .swiper-pagination-bullet { background: white !important; opacity: 0.5 !important; }
+  .swiper-pagination-bullet-active { opacity: 1 !important; }
   
-  /* 基础动画 */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
