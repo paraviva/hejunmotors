@@ -1,23 +1,13 @@
-// Site configuration
-export const SITE = {
-  title: 'AstroFlow',
-  description: 'Leading provider of optimized logistics and manufacturing solutions with state-of-the-art facilities and industry expertise.',
-  url: 'https://yourdomain.com',
-  author: 'AstroFlow',
-} as const;
-
 export const NAVIGATION = [
-  { name: 'Home', href: '/' },
-  { name: 'Capabilities', href: '/capabilities' },
-  { name: 'Use Cases', href: '/use-cases' },
-  { name: 'Facilities', href: '/facilities' },
-  { name: 'Request Quote', href: '/rfq' },
-  { name: 'Documentation', href: '/documentation' },
+  { name: 'HOME', href: '/' },
+  { name: 'ABOUT US', href: '/about' },
+  { name: 'MOTOR', href: '/motor' },
+  { name: 'PAPER MACHINE', href: '/paper-machine' },
+  { name: 'NEWS', href: '/news' },
+  { name: 'CASE', href: '/case' },
+  { name: 'FAQ', href: '/faq' },
+  { name: 'CONTACT', href: '/contact' },
+  // 别把 RFQ 放进数组，我们要确保它在 Navbar.astro 里被渲染成那个漂亮的独立按钮
 ] as const;
 
-export const SOCIAL_LINKS = {
-  linkedin: 'https://linkedin.com/company/yourcompany',
-  twitter: 'https://twitter.com/yourcompany',
-  facebook: 'https://facebook.com/yourcompany',
-} as const;
-
+// 如果你的配置文件里有单独定义按钮的地方，确保它的 href 指向 '/rfq'
