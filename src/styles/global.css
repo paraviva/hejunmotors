@@ -1,18 +1,40 @@
 @import "tailwindcss";
 
 @theme {
+  /* 1. 定义主色调 */
   --color-primary: #012D46;
-/* Smooth scrolling */
-} /*
+
+  /* 2. 核心：强制覆盖 Tailwind 内置的蓝色，让按钮和链接瞬间变深蓝 */
+  --color-blue-500: #1E40AF; /* 稍微亮一点的蓝色，用于次要元素 */
+  --color-blue-600: #012D46; /* 核心深蓝，对应导航栏按钮和主按钮 */
+  --color-blue-700: #001A29; /* 悬停时更深的藏青色 */
+
+  /* 3. 覆盖渐变色中常见的青蓝色，防止色彩突兀 */
+  --color-teal-600: #012D46;
+  --color-cyan-500: #1E40AF;
+}
+
+/* --- 下面是功能性样式 --- */
+
+/* 平滑滚动 */
 html {
   @apply scroll-smooth;
 }
 
+/* 导航栏激活状态的小圆点 */
 .nav-active {
-  @apply after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-blue-300 hover:after:bg-transparent after:rounded-full;
+  @apply after:content-[""] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-1.5 after:h-1.5 after:bg-primary hover:after:bg-transparent after:rounded-full;
 }
 
-/* Animations */
+/* 渐变文字：从工业深蓝过渡到科技蓝 */
+.gradient-text {
+  background: linear-gradient(to right, #012D46, #2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 动画定义 */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -39,12 +61,4 @@ html {
 
 .animate-fadeIn {
   animation: fadeIn 0.4s ease-out forwards;
-}
-
-.gradient-text {
-  /* 从客户指定的 #012D46 深蓝，平滑过渡到一个稍微亮一点的科技蓝 */
-  background: linear-gradient(to right, #012D46, #1E40AF);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
