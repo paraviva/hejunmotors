@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #012D46;
 /* Smooth scrolling */
+} /*
 html {
   @apply scroll-smooth;
 }
@@ -39,7 +42,8 @@ html {
 }
 
 .gradient-text {
-  background: linear-gradient(to right, #2563eb, #0d9488);
+  /* 从客户指定的 #012D46 深蓝，平滑过渡到一个稍微亮一点的科技蓝 */
+  background: linear-gradient(to right, #012D46, #1E40AF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
