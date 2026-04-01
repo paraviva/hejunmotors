@@ -1,3 +1,12 @@
+// HEJUN MOTORS - 全局配置文件
+
+export const SITE = {
+  title: 'HEJUN MOTORS',
+  description: 'Professional manufacturer of High-Efficiency PMSM and Industrial Synchronous Motors. Specialized in paper machinery and industrial automation solutions.',
+  url: 'https://hejunmotors.com',
+  author: 'HEJUN MOTORS',
+} as const;
+
 export const NAVIGATION = [
   { name: 'HOME', href: '/' },
   { name: 'ABOUT US', href: '/about' },
@@ -7,7 +16,12 @@ export const NAVIGATION = [
   { name: 'CASE', href: '/case' },
   { name: 'FAQ', href: '/faq' },
   { name: 'CONTACT', href: '/contact' },
-  // 别把 RFQ 放进数组，我们要确保它在 Navbar.astro 里被渲染成那个漂亮的独立按钮
 ] as const;
 
-// 如果你的配置文件里有单独定义按钮的地方，确保它的 href 指向 '/rfq'
+// 补齐这个部分，Vercel 编译就不会报错了
+export const SOCIAL_LINKS = {
+  linkedin: 'https://linkedin.com/company/hejun-motors',
+  twitter: '', // 如果没有就留空，但变量必须存在
+  facebook: '',
+  github: '',
+} as const;
