@@ -6,43 +6,43 @@ import { Settings2, ShieldCheck, PenTool, Truck, CheckCircle2, LifeBuoy, ArrowRi
 const workflow = [
   { 
     phase: "Phase 1", 
-    title: "Requirement Confirmation", 
-    desc: "Technica: Client provides specifications (motor parameters or paper machine capacity/process requirements); Proposal Submission: We provide technical solutions, equipment lists, and preliminary quotations", 
+    title: "Requirement", 
+    desc: "Technical specs confirmation & proposal submission", 
     icon: Settings2,
     details: ["Motor parameters", "Paper machine capacity", "Preliminary quotations"]
   },
   { 
     phase: "Phase 2", 
-    title: "Agreement Finalization", 
-    desc: "Technical Validation: Meeting to confirm all technical details and standards; Contract Signing: Formal contract execution covering payment terms, delivery schedule, and acceptance criteria", 
+    title: "Agreement", 
+    desc: "Technical validation & formal contract execution", 
     icon: ShieldCheck,
     details: ["Technical standards", "Payment terms", "Acceptance criteria"]
   },
   { 
     phase: "Phase 3", 
-    title: "Production & Quality Assurance", 
-    desc: "Production Initiation: Motor production scheduling / Paper machine detailed design & procurement; Process Monitoring: Regular progress reports, support for client factory inspection or remote supervision; Factory Acceptance: Motors come with test reports / Paper machines undergo Factory Acceptance Test", 
+    title: "Production", 
+    desc: "Manufacturing & process quality assurance", 
     icon: PenTool,
     details: ["Progress reports", "Factory inspection", "Test reports"]
   },
   { 
     phase: "Phase 4", 
     title: "Delivery", 
-    desc: "FOB Delivery: Equipment ready at the designated port; we coordinate with the client's freight forwarder for export customs clearance.; EXW Delivery: Equipment ready at our factory; the client or their agent arranges pickup and handles all export procedures.; Documentation: We provide a full set of customs documents (Invoice, packing list, certificate of origin, test reports).", 
+    desc: "FOB/EXW logistics & customs documentation", 
     icon: Truck,
     details: ["Export clearance", "Packing list", "Certificate of origin"]
   },
   { 
     phase: "Phase 5", 
     title: "Installation", 
-    desc: "Motor: Provide installation guides with optional on-line support; Paper Machine: Dispatch engineers for installation supervision, commissioning, and operator training", 
+    desc: "On-site supervision & operator training", 
     icon: CheckCircle2,
     details: ["Installation guides", "Commissioning", "Remote support"]
   },
   { 
     phase: "Phase 6", 
-    title: "After-sales & Warranty", 
-    desc: "Final Acceptance: Sign acceptance documentation to activate warranty period; Ongoing Support: Spare parts supply, remote technical support, and maintenance planning", 
+    title: "After-sales", 
+    desc: "Warranty activation & spare parts supply", 
     icon: LifeBuoy,
     details: ["Final acceptance", "Maintenance planning", "Rapid response"]
   },
@@ -72,31 +72,38 @@ const workflow = [
     </div>
   </section>
 
-  <Section background="light">
-    <div class="max-w-6xl mx-auto space-y-12">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Mission</h2>
-            <p class="text-lg text-slate-600 leading-relaxed italic max-w-4xl mx-auto">
-              "To power global manufacturing with reliable, efficient, and sustainable solutions that drive productivity while reducing environmental impact."
-            </p>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div class="group p-8 bg-white rounded-xl shadow-lg border border-slate-100 hover:border-blue-200 transition-all hover:bg-blue-50 hover:-translate-y-1">
-            <h4 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900">
+  <Section>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+      <div class="space-y-8">
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900">Our Mission</h2>
+        <p class="text-lg text-slate-600 leading-relaxed italic border-l-4 border-blue-600 pl-6">
+          "To power global manufacturing with reliable, efficient, and sustainable solutions that drive productivity while reducing environmental impact."
+        </p>
+        <div class="space-y-6">
+          <div class="group p-6 bg-slate-50 rounded-xl hover:bg-blue-50 transition-colors">
+            <h4 class="text-xl font-bold mb-3 flex items-center gap-2">
               <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
               Industrial Motors & Drives
             </h4>
-            <p class="text-slate-600 text-sm leading-relaxed">From precision servo systems to heavy-duty explosion-proof motors, designed for industries ranging from mining and water treatment to automation and renewable energy.</p>
+            <p class="text-slate-600">From precision servo systems to heavy-duty explosion-proof motors, designed for mining, water treatment, and renewable energy.</p>
           </div>
-          <div class="group p-8 bg-white rounded-xl shadow-lg border border-slate-100 hover:border-teal-200 transition-all hover:bg-teal-50 hover:-translate-y-1">
-            <h4 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-900">
+          <div class="group p-6 bg-slate-50 rounded-xl hover:bg-teal-50 transition-colors">
+            <h4 class="text-xl font-bold mb-3 flex items-center gap-2">
               <span class="w-2 h-2 bg-teal-500 rounded-full"></span>
               Complete Papermaking Lines
             </h4>
-            <p class="text-slate-600 text-sm leading-relaxed">Integrated solutions from pulping and forming to drying and finishing, tailored for tissue, packaging, specialty paper, and custom production requirements.</p>
+            <p class="text-slate-600">Integrated solutions from pulping to drying, tailored for tissue, packaging, and specialty paper production.</p>
           </div>
         </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-4 pt-12">
+          <img src="/image/banner1.webp" class="rounded-2xl shadow-lg aspect-[3/4] object-cover" alt="Detail 1" />
+        </div>
+        <div class="space-y-4">
+          <img src="/image/banner2.webp" class="rounded-2xl shadow-lg aspect-[3/4] object-cover" alt="Detail 2" />
+        </div>
+      </div>
     </div>
   </Section>
 
