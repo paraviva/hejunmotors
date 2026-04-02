@@ -6,60 +6,80 @@ import Button from '../components/ui/Button.astro';
 import { Image } from 'astro:assets';
 import ImageReveal from '../components/react/ImageReveal';
 
-// 保持使用你模板中的图片引用方式，确保路径正确
+// 保持图片引用
 import manufacturingImg from '@assets/photo-1581091226825-a6a2a5aee158.jpg';
 import ctaBgImg from '@assets/photo-1553413077-190dd305871c.jpg';
 
 const workflow = [
   { 
     step: '01', 
-    title: 'Requirement', 
-    description: 'Technical specs confirmation (motor params or paper process) & initial proposal submission.',
-    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>`
+    title: 'Requirement Confirmation', 
+    content: [
+      { label: 'Technical', text: 'Client provides specifications (motor parameters or paper machine capacity/process requirements).' },
+      { label: 'Proposal', text: 'We provide technical solutions, equipment lists, and preliminary quotations.' }
+    ],
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
   },
   { 
     step: '02', 
-    title: 'Agreement', 
-    description: 'Meeting to confirm all technical standards followed by formal contract execution.',
-    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2C9.47 2 7.153 3.063 5.382 4.784a11.955 11.955 0 01-1.012 1.411A11.954 11.954 0 003 12c0 1.268.197 2.49.563 3.637a11.954 11.954 0 005.259 6.643L12 23l3.178-1.72a11.954 11.954 0 005.259-6.643c.366-1.147.563-2.369.563-3.637 0-2.348-.674-4.538-1.832-6.384z" /></svg>`
+    title: 'Agreement Finalization', 
+    content: [
+      { label: 'Validation', text: 'Meeting to confirm all technical details and standards.' },
+      { label: 'Contract', text: 'Formal contract execution covering payment terms, delivery schedule, and acceptance criteria.' }
+    ],
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2C9.47 2 7.153 3.063 5.382 4.784a11.955 11.955 0 01-1.012 1.411A11.954 11.954 0 003 12c0 1.268.197 2.49.563 3.637a11.954 11.954 0 005.259 6.643L12 23l3.178-1.72a11.954 11.954 0 005.259-6.643c.366-1.147.563-2.369.563-3.637 0-2.348-.674-4.538-1.832-6.384z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
   },
   { 
     step: '03', 
-    title: 'Production', 
-    description: 'Production scheduling with regular progress reports and factory acceptance testing.',
-    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>`
+    title: 'Production & QA', 
+    content: [
+      { label: 'Initiation', text: 'Motor production scheduling / Paper machine detailed design & procurement.' },
+      { label: 'Monitoring', text: 'Regular progress reports, support for factory inspection or remote supervision.' },
+      { label: 'Acceptance', text: 'Motors come with test reports / Paper machines undergo Factory Acceptance Test.' }
+    ],
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
   },
   { 
     step: '04', 
     title: 'Delivery', 
-    description: 'FOB/EXW coordination with full documentation (Invoice, PL, CO, Test Reports).',
-    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>`
+    content: [
+      { label: 'FOB/EXW', text: 'Logistics coordination based on selected terms (port or factory pickup).' },
+      { label: 'Docs', text: 'Full set of customs documents provided (Invoice, PL, CO, Test Reports).' }
+    ],
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
   },
   { 
     step: '05', 
     title: 'Installation', 
-    description: 'On-site installation supervision, commissioning, and professional operator training.',
-    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>`
+    content: [
+      { label: 'Motor', text: 'Provide installation guides with optional on-line support.' },
+      { label: 'Paper Machine', text: 'Dispatch engineers for supervision, commissioning, and training.' }
+    ],
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
   },
   { 
     step: '06', 
-    title: 'Support', 
-    description: 'Warranty activation, spare parts supply, and remote technical maintenance planning.',
-    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>`
+    title: 'After-sales & Warranty', 
+    content: [
+      { label: 'Acceptance', text: 'Sign documentation to activate warranty period.' },
+      { label: 'Support', text: 'Spare parts supply, remote technical support, and maintenance planning.' }
+    ],
+    icon: `<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
   }
 ];
 ---
 
 <BaseLayout title="About Us | Hejun Motors">
-  <header class="py-20 bg-slate-900 border-b border-slate-800">
-    <div class="container mx-auto px-6 text-center">
-      <div class="inline-flex items-center px-4 py-2 mb-6 bg-blue-600/10 text-blue-400 text-sm font-mono tracking-widest rounded-full border border-blue-600/20">
-        SINCE 2005
+  <header class="py-24 bg-slate-900 border-b border-slate-800 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-1/3 h-full bg-blue-600/5 skew-x-[-20deg] translate-x-20"></div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+      <div class="inline-flex items-center px-4 py-2 mb-6 bg-blue-600/10 text-blue-400 text-xs font-mono tracking-[0.3em] rounded-full border border-blue-600/20 uppercase">
+        Established 2005
       </div>
-      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tighter italic">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tighter italic">
         ABOUT <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-400 via-teal-400 to-blue-400">US</span>
       </h1>
-      <p class="text-slate-400 max-w-2xl mx-auto font-light text-lg">
+      <p class="text-slate-400 max-w-2xl mx-auto font-light text-xl">
         Industrial Power & Papermaking Systems Innovator
       </p>
     </div>
@@ -69,24 +89,28 @@ const workflow = [
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div class="order-2 lg:order-1">
         <ImageReveal client:load>
-          <div class="relative aspect-square overflow-hidden rounded-3xl shadow-2xl group">
+          <div class="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl group">
             <Image 
               src={manufacturingImg}
-              alt="Hejun Motors Manufacturing"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              alt="Hejun Motors Excellence"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
               width={1000}
-              height={1000}
+              height={1250}
             />
-            <div class="absolute inset-0 bg-linear-to-t from-slate-900/60 via-transparent to-transparent"></div>
+            <div class="absolute inset-0 bg-linear-to-t from-slate-900/80 via-transparent to-transparent"></div>
+            <div class="absolute bottom-10 left-10 text-white">
+                <h3 class="text-3xl font-bold italic tracking-tighter">Precision Driven</h3>
+                <p class="text-blue-400 font-mono text-sm uppercase mt-2">Quality & Performance</p>
+            </div>
           </div>
         </ImageReveal>
       </div>
 
       <div class="order-1 lg:order-2 animate-fadeInUp">
-        <div class="w-12 h-1 bg-blue-600 mb-8"></div>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 italic">Engineering Excellence & Innovation</h2>
-        <div class="bg-slate-50 p-8 md:p-10 rounded-2xl border border-slate-100 shadow-sm">
-          <p class="text-lg md:text-xl text-gray-700 leading-relaxed text-justify">
+        <div class="w-16 h-1.5 bg-blue-600 mb-10"></div>
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8 italic tracking-tight">Powering Global Manufacturing</h2>
+        <div class="bg-slate-50 p-8 md:p-12 rounded-[2rem] border border-slate-100 shadow-sm relative">
+          <p class="text-lg md:text-xl text-gray-700 leading-relaxed text-justify font-light">
             We are an industrial technology enterprise dedicated to integrating advanced motor-drive systems with intelligent papermaking machinery. Our mission is to power global manufacturing with reliable, efficient, and sustainable solutions that drive productivity while reducing environmental impact. Specializing in two core domains, we engineer motion and transformation: Industrial Motors & Drives – from precision servo systems to heavy-duty explosion-proof motors, designed for industries ranging from mining and water treatment to automation and renewable energy. Complete Papermaking Lines – offering integrated solutions from pulping and forming to drying and finishing, tailored for tissue, packaging, and specialty paper production. Through continuous innovation in automation, energy efficiency, and intelligent control, we help clients optimize operational performance, lower lifecycle costs, and advance toward greener production practices. Whether powering a single machine or delivering a turnkey paper plant, we combine engineering excellence with a deep understanding of industrial processes. Committed to quality and collaboration, we work closely with customers worldwide to build systems that move industries forward—responsibly, reliably, and ahead of schedule.
           </p>
         </div>
@@ -95,56 +119,62 @@ const workflow = [
   </Section>
 
   <Section background="gray">
-    <div class="text-center mb-16">
-      <div class="inline-block px-4 py-2 mb-4 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full uppercase tracking-widest">
-        Workflow
+    <div class="text-center mb-20">
+      <div class="inline-block px-4 py-2 mb-4 bg-blue-100 text-blue-800 text-sm font-bold rounded-lg uppercase tracking-widest">
+        Step-by-Step
       </div>
-      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-        Procurement <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-600">Process</span>
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 italic">
+        Equipment Procurement <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-600">Workflow</span>
       </h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-        A systematic 6-phase approach ensuring technical precision and reliable delivery.
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        A transparent, professional process from initial consultation to long-term support.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {workflow.map((process, index) => (
-        <Card hover class="animate-fadeInUp group" style={`animation-delay: ${index * 0.1}s`}>
-          <div class="flex items-center justify-center w-16 h-16 mb-6 rounded-xl bg-linear-to-br from-blue-600 to-teal-500 text-white shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-            <div set:html={process.icon} />
+      {workflow.map((item, index) => (
+        <Card hover class="animate-fadeInUp h-full flex flex-col p-8 bg-white border border-slate-200" style={`animation-delay: ${index * 0.1}s`}>
+          <div class="flex items-center justify-between mb-8">
+            <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-xl group-hover:bg-blue-600 transition-colors duration-500">
+              <div set:html={item.icon} />
+            </div>
+            <span class="text-4xl font-black text-slate-100 font-mono tracking-tighter">{item.step}</span>
           </div>
-          <div class="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-blue-600/20 to-teal-600/20 mb-2 font-mono">
-            {process.step}
+          
+          <h3 class="text-xl font-bold text-slate-900 mb-6 leading-tight border-b border-slate-100 pb-4">
+            {item.title}
+          </h3>
+          
+          <div class="space-y-4 flex-grow">
+            {item.content.map((point) => (
+              <div class="group/item">
+                <p class="text-xs font-bold text-blue-600 uppercase mb-1 tracking-wider">{point.label}:</p>
+                <p class="text-sm text-slate-600 leading-relaxed">{point.text}</p>
+              </div>
+            ))}
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">{process.title}</h3>
-          <p class="text-gray-600 leading-relaxed text-sm">{process.description}</p>
         </Card>
       ))}
     </div>
   </Section>
 
-  <section class="relative py-32 overflow-hidden">
+  <section class="relative py-32">
     <div class="absolute inset-0">
-      <Image 
-        src={ctaBgImg}
-        alt="Industrial Partnership"
-        class="w-full h-full object-cover"
-        width={2070}
-        height={1380}
-      />
-      <div class="absolute inset-0 bg-linear-to-r from-slate-900/95 to-blue-900/90"></div>
+      <Image src={ctaBgImg} alt="CTA" class="w-full h-full object-cover" width={2070} height={1380} />
+      <div class="absolute inset-0 bg-slate-900/90 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-linear-to-br from-blue-600/20 to-transparent"></div>
     </div>
 
     <div class="container mx-auto px-6 relative z-10 text-center">
-      <h2 class="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
-        Ready to Power Your <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-teal-400">Production</span>?
+      <h2 class="text-5xl md:text-7xl font-bold text-white mb-10 tracking-tighter italic">
+        Innovate Your <span class="text-blue-400">Industry</span>
       </h2>
       <div class="flex flex-col sm:flex-row gap-6 justify-center">
-        <Button href="/rfq" size="lg" class="bg-blue-600! hover:bg-blue-700! text-white! shadow-2xl!">
-          Request a Quote
+        <Button href="/rfq" size="lg" class="bg-blue-600! hover:bg-blue-700! text-white! px-12! py-5! text-lg! shadow-2xl">
+          Get A Quote
         </Button>
-        <Button href="/contact" size="lg" variant="outline" class="border-2! border-white! text-white! hover:bg-white/10!">
-          Contact Our Team
+        <Button href="/contact" size="lg" variant="outline" class="border-2! border-white! text-white! hover:bg-white/10! px-12! py-5! text-lg!">
+          Contact Us
         </Button>
       </div>
     </div>
