@@ -1,24 +1,63 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PremiumHero from '../components/home/PremiumHero.astro';
-import ServiceHighlights from '../components/home/ServiceHighlights.astro';
-import ImageGrid from '../components/home/ImageGrid.astro';
-import StatsShowcase from '../components/home/StatsShowcase.astro';
-import IndustriesServed from '../components/home/IndustriesServed.astro';
-import TechnologyInnovation from '../components/home/TechnologyInnovation.astro';
+// 注意：About 页面我们不需要重复首页的所有组件
+import PremiumHero from '../components/home/PremiumHero.astro'; 
 import ProcessWorkflow from '../components/home/ProcessWorkflow.astro';
-import Testimonials from '../components/home/Testimonials.astro';
-import PremiumCTA from '../components/home/PremiumCTA.astro';
+import StatsShowcase from '../components/home/StatsShowcase.astro';
 ---
 
 <BaseLayout>
   <PremiumHero />
-  <ServiceHighlights />
-  <ImageGrid />
-  <IndustriesServed />
-  <TechnologyInnovation />
-  <ProcessWorkflow />
+
+  <section class="py-24 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="text-4xl font-bold text-slate-900 mb-8 tracking-tight">
+            Industrial Power & <br/>
+            <span class="text-blue-600">Papermaking Systems Innovator</span>
+          </h2>
+          <div class="space-y-6 text-lg text-slate-600 leading-relaxed">
+            <p>
+              We are an industrial technology enterprise dedicated to integrating advanced motor-drive systems with intelligent papermaking machinery.
+            </p>
+            <ul class="space-y-4">
+              <li class="flex items-start gap-3">
+                <span class="text-blue-600 font-bold">01.</span>
+                <span><strong>Industrial Motors & Drives</strong> – From precision servo systems to heavy-duty explosion-proof motors.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-blue-600 font-bold">02.</span>
+                <span><strong>Complete Papermaking Lines</strong> – Solutions from pulping to drying for tissue and packaging.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="relative group">
+          <div class="absolute -inset-4 bg-blue-100 rounded-2xl scale-95 group-hover:scale-100 transition-transform"></div>
+          <img src="/image/banner2.webp" class="relative rounded-xl shadow-2xl object-cover aspect-video" alt="Factory" />
+        </div>
+      </div>
+    </div>
+  </section>
+
   <StatsShowcase />
-  <Testimonials />
-  <PremiumCTA />
+
+  <section class="py-24 bg-slate-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-20">
+        <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Procurement Process</h2>
+        <div class="w-24 h-1 bg-blue-600 mx-auto"></div>
+      </div>
+
+      <ProcessWorkflow />
+    </div>
+  </section>
+
+  <section class="py-20 bg-blue-600 text-white text-center">
+    <h2 class="text-3xl font-bold mb-8">Ready to start your industrial project?</h2>
+    <a href="/contact" class="inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-slate-100 transition">
+      Contact Our Engineers
+    </a>
+  </section>
 </BaseLayout>
