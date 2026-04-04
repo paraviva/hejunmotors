@@ -1,23 +1,22 @@
 ---
 import { NAVIGATION, SOCIAL_LINKS, SITE } from '@config/site';
-import { Package, Linkedin, Twitter, Facebook } from 'lucide-react';
+import { Zap, Linkedin, Twitter, Facebook, Mail, Phone, MapPin } from 'lucide-react';
 ---
 
 <footer class="bg-slate-900 text-slate-300">
   <div class="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-12 lg:grid-cols-4">
-      <!-- Company Info -->
       <div class="lg:col-span-1 space-y-6">
         <a href="/" class="flex items-center space-x-3 group">
           <div class="flex items-center justify-center w-12 h-12 rounded-lg bg-linear-to-br from-blue-600 to-teal-600">
-            <Package className="w-7 h-7 text-white" />
+            <Zap className="w-7 h-7 text-white" />
           </div>
           <span class="text-2xl font-bold text-white">
-            AstroFlow
+            Hejun Motors
           </span>
         </a>
         <p class="text-sm text-slate-400 leading-relaxed max-w-xs">
-          {SITE.description}
+          Global provider of IE5 ultra-premium efficiency motors and high-performance paper machinery solutions. Engineering excellence for modern industry.
         </p>
         <div class="flex space-x-4">
           <a
@@ -27,27 +26,12 @@ import { Package, Linkedin, Twitter, Facebook } from 'lucide-react';
           >
             <Linkedin className="w-5 h-5" />
           </a>
-          <a
-            href={SOCIAL_LINKS.twitter}
-            class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-blue-400 hover:text-white transition-all"
-            aria-label="Twitter"
-          >
-            <Twitter className="w-5 h-5" />
-          </a>
-          <a
-            href={SOCIAL_LINKS.facebook}
-            class="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:bg-blue-500 hover:text-white transition-all"
-            aria-label="Facebook"
-          >
-            <Facebook className="w-5 h-5" />
-          </a>
-        </div>
+          </div>
       </div>
 
-      <!-- Quick Links -->
       <div>
         <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6">
-          Quick Links
+          Sitemap
         </h3>
         <ul class="space-y-3">
           {NAVIGATION.map((item) => (
@@ -64,93 +48,80 @@ import { Package, Linkedin, Twitter, Facebook } from 'lucide-react';
         </ul>
       </div>
 
-      <!-- Services -->
       <div>
         <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6">
-          Services
+          Solutions
         </h3>
         <ul class="space-y-3">
           <li>
-            <a href="/capabilities" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
+            <a href="/products" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
               <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Warehousing & Storage
+              IE5 PM Motors
             </a>
           </li>
           <li>
-            <a href="/capabilities" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
+            <a href="/products" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
               <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Transportation
+              Paper Machine Drives
             </a>
           </li>
           <li>
-            <a href="/capabilities" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
+            <a href="/products" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
               <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Manufacturing
+              Explosion-proof Motors
             </a>
           </li>
           <li>
-            <a href="/capabilities" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
+            <a href="/rfq" class="text-sm text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
               <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Supply Chain Management
+              Custom OEM Design
             </a>
           </li>
         </ul>
       </div>
 
-      <!-- Contact -->
       <div>
         <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6">
-          Get Started
+          Contact Us
         </h3>
-        <ul class="space-y-3 text-sm">
-          <li>
-            <a href="/rfq" class="text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
-              <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Request a Quote
-            </a>
+        <ul class="space-y-4 text-sm text-slate-400">
+          <li class="flex items-center space-x-3">
+            <Mail className="w-5 h-5 text-blue-400 shrink-0" />
+            <a href="mailto:sales@convrmotor.com" class="hover:text-white transition-colors">sales@convrmotor.com</a>
           </li>
-          <li>
-            <a href="/facilities" class="text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
-              <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Find a Facility
-            </a>
+          <li class="flex items-center space-x-3">
+            <Phone className="w-5 h-5 text-teal-400 shrink-0" />
+            <a href="tel:+8615257432470" class="hover:text-white transition-colors">+86 152 5743 2470</a>
           </li>
-          <li>
-            <a href="/documentation" class="text-slate-400 hover:text-blue-400 transition-colors inline-flex items-center group">
-              <span class="w-0 group-hover:w-2 h-0.5 bg-blue-400 transition-all mr-0 group-hover:mr-2"></span>
-              Documentation
-            </a>
+          <li class="flex items-start space-x-3">
+            <MapPin className="w-5 h-5 text-slate-500 shrink-0 mt-0.5" />
+            <span>Industrial Zone, [Your City], Zhejiang, China</span>
           </li>
         </ul>
         
         <div class="mt-8">
           <a
             href="/rfq"
-            class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-lg shadow-lg hover:shadow-xl transition-all"
+            class="inline-flex items-center px-6 py-3 text-sm font-semibold text-white bg-linear-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 rounded-lg shadow-lg hover:shadow-xl transition-all"
           >
-            Get Started
+            Get Technical Quote
           </a>
         </div>
       </div>
     </div>
 
-    <!-- Bottom Bar -->
     <div class="mt-16 pt-8 border-t border-slate-800">
       <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-        <p class="text-sm text-slate-400">
-          &copy; {new Date().getFullYear()} {SITE.author}. All rights reserved.
+        <p class="text-sm text-slate-500">
+          &copy; {new Date().getFullYear()} Hejun Motors & Technology Co., Ltd. All rights reserved.
         </p>
         <div class="flex items-center space-x-6 text-sm">
-          <a href="/" class="text-slate-400 hover:text-blue-400 transition-colors">
+          <a href="/privacy" class="text-slate-500 hover:text-blue-400 transition-colors">
             Privacy Policy
           </a>
           <span class="text-slate-700">•</span>
-          <a href="/" class="text-slate-400 hover:text-blue-400 transition-colors">
+          <a href="/terms" class="text-slate-500 hover:text-blue-400 transition-colors">
             Terms of Service
-          </a>
-          <span class="text-slate-700">•</span>
-          <a href="/" class="text-slate-400 hover:text-blue-400 transition-colors">
-            Cookie Policy
           </a>
         </div>
       </div>
