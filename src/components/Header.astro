@@ -5,7 +5,9 @@ import { Mail, Phone, Facebook, Linkedin, Twitter, Instagram, ChevronDown } from
 const { currentPathname } = Astro.props;
 const isActiveLink = (href: string) : boolean => { 
   if (href === '/' && currentPathname === '/') return true;
-  if (href !== '/' && currentPathname?.startsWith(href)) return true;
+  // 增加对锚点链接的激活判断支持
+  const pureHref = href.split('#')[0];
+  if (pureHref !== '/' && currentPathname?.startsWith(pureHref)) return true;
   return false;
 }
 
@@ -16,16 +18,16 @@ const menuConfig = [
     name: 'MOTOR', 
     href: '/motor',
     children: [
-      { name: 'high-efficiency motor', href: '/products/high-efficiency-motor' },
-      { name: 'vector reluctance motor', href: '/products/vector-reluctance-motor' }
+      { name: 'High-Efficiency Motor', href: '/motor#high-efficiency' },
+      { name: 'Vector Reluctance Motor', href: '/motor#vector-reluctance' }
     ]
   },
   { 
     name: 'PAPER MACHINE', 
     href: '/paper-machine',
     children: [
-      { name: 'paper machine', href: '/products/paper-machine' },
-      { name: 'corrugating roll', href: '/products/corrugating-roll' }
+      { name: 'Paper Machine', href: '/paper-machine#paper-machine' },
+      { name: 'Corrugating Roll', href: '/paper-machine#corrugating-roll' }
     ]
   },
   { name: 'NEWS', href: '/news' },
@@ -33,19 +35,20 @@ const menuConfig = [
     name: 'CASE', 
     href: '/cases',
     children: [
-      { name: 'motor projects', href: '/cases/motor' },
-      { name: 'paper machine projects', href: '/cases/paper-machine' },
-      { name: 'rollers projects', href: '/cases/rollers' },
-      { name: 'vector reluctance motor projects', href: '/cases/vector' }
+      // ✅ 这里已修正：从 /cases/motor 改为 /cases#motor
+      { name: 'Motor Projects', href: '/cases#motor' },
+      { name: 'Paper Machine Projects', href: '/cases#paper-machine' },
+      { name: 'Rollers Projects', href: '/cases#rollers' },
+      { name: 'Vector Motor Projects', href: '/cases#vector' }
     ]
   },
   { 
     name: 'FAQ', 
     href: '/faq',
     children: [
-      { name: 'motor products', href: '/faq/motor' },
-      { name: 'paper machine products', href: '/faq/paper-machine' },
-      { name: 'general service & procurement', href: '/faq/service' }
+      { name: 'Motor FAQ', href: '/faq#motor-faq' },
+      { name: 'Paper Machine FAQ', href: '/faq#paper-faq' },
+      { name: 'General Service', href: '/faq#service-faq' }
     ]
   },
   { name: 'CONTACT', href: '/contact' }
@@ -70,7 +73,7 @@ const menuConfig = [
   <div class="py-3 px-4 sm:px-6 lg:px-8 border-b border-slate-50">
     <div class="container mx-auto flex items-center justify-between">
       <a href="/" class="flex-shrink-0">
-        <img src="/image/hejunlogo.webp" alt="Hejun Logo" class="h-16 w-auto" />
+        <img src="/image/hejunlogo-v2.png" alt="Hejun Logo" class="h-16 w-auto" />
       </a>
 
       <div class="hidden lg:flex items-center gap-10 border-l border-slate-100 pl-10 ml-10">

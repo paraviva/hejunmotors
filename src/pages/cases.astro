@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import Card from '../components/ui/Card.astro';
+import { Image } from 'astro:assets';
+import { 
+  Briefcase, Zap, Settings, Layers, Target, Search, ChevronRight, ExternalLink 
+} from 'lucide-react';
+
+// 复用背景图 [cite: 3, 32, 58]
+import rfqBgImg from '@assets/photo-1558618666-fcd25c85cd64.jpg';
+
+// 案例分类配置
+const caseCategories = [
+  { id: 'motor', name: 'Motor Projects', icon: Zap, color: 'text-blue-500' },
+  { id: 'paper-machine', name: 'Paper Machine Projects', icon: Settings, color: 'text-orange-500' },
+  { id: 'rollers', name: 'Rollers Projects', icon: Layers, color: 'text-emerald-500' },
+  { id: 'vector', name: 'Vector Reluctance Projects', icon: Target, color: 'text-teal-500' }
+];
+
+// 模拟案例数据（后续你可以通过 WordPress API 接入 [cite: 35]）
+const casePlaceholder = 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800';
+
+const allCases = {
+  'motor': [
+    { title: "500kW Industrial Drive System", client: "Steel Mill, Germany", tags: ["IE5", "High Power"] },
+    { title: "Automated Conveyor Motors", client: "Logistics Center, UAE", tags: ["Custom Shaft"] }
+  ],
+  'paper-machine': [
+    { title: "High-Speed Tissue Production Line", client: "Paper Group, SE Asia", tags: ["Turn-key", "600m/min"] },
+    { title: "Recycled Paper System Upgrade", client: "Local Mill, China", tags: ["Energy Saving"] }
+  ],
+  'rollers': [
+    { title: "Tungsten Carbide Corrugating Rolls", client: "Packaging Co, USA", tags: ["Precision", "A-Flute"] },
+    { title: "Chrome Plated Roller Replacement", client: "Board Factory, India", tags: ["Anti-Corrosion"] }
+  ],
+  'vector': [
+    { title: "Servo-Level Precision Control", client: "Robotics Lab", tags: ["Vector Control", "No-Sensor"] },
+    { title: "High-Torque Low-Speed Application", client: "Mining Equipment", tags: ["VRS-Series"] }
+  ]
+};
+---
+
+<BaseLayout title="Success Cases - Hejun Electromechanical">
+  <section class="relative h-[350px] flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={rfqBgImg} alt="Success cases" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-blue-900/90 to-slate-900/85"></div>
+    </div>
+    <div class="container mx-auto relative z-10 px-4 text-center">
+      <div class="inline-flex items-center px-4 py-2 mb-6 bg-white/10 border border-white/20 text-white text-xs font-bold rounded-full backdrop-blur-sm">
+        <Briefcase className="w-4 h-4 mr-2 text-blue-400" /> GLOBAL PROJECT FOOTPRINT
+      </div>
+      <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase">Success <span class="text-blue-500">Stories</span></h1>
+      <p class="text-slate-400 max-w-2xl mx-auto italic">Explore how our engineering solutions empower industrial manufacturing worldwide.</p>
+    </div>
+  </section>
+
+  <Section background="gray">
+    <div class="flex flex-col lg:flex-row gap-12">
+      
+      <aside class="lg:w-80 flex-shrink-0">
+        <div class="sticky top-28 space-y-6">
+          
+          <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input 
+                type="text" 
+                placeholder="Search projects..." 
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-blue-500 transition-all"
+              />
+            </div>
+          </div>
+
+          <nav class="space-y-2">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 px-2">Project Categories</p>
+            {caseCategories.map(cat => (
+              <a 
+                href={`#${cat.id}`} 
+                class="flex items-center group px-4 py-4 bg-white border border-slate-200 rounded-xl hover:border-blue-500 hover:shadow-lg transition-all active:scale-95"
+              >
+                <cat.icon className={`w-5 h-5 mr-3 ${cat.color} group-hover:scale-110 transition-transform`} />
+                <span class="text-sm font-bold text-slate-700 group-hover:text-blue-600">{cat.name}</span>
+                <ChevronRight className="w-4 h-4 ml-auto text-slate-300 group-hover:text-blue-400" />
+              </a>
+            ))}
+          </nav>
+
+          <div class="p-6 bg-[#012D46] rounded-2xl text-white">
+            <h4 class="font-bold text-sm mb-2 text-blue-400">Share Your Requirements?</h4>
+            <p class="text-[11px] text-slate-400 mb-4">We provide customized engineering designs based on your specific application.</p>
+            <a href="/rfq" class="w-full py-3 bg-blue-600 text-xs font-black text-center rounded-lg block hover:bg-blue-500 transition-colors uppercase">Consult Engineer</a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="flex-grow space-y-24">
+        {caseCategories.map(cat => (
+          <div id={cat.id} class="scroll-mt-28">
+            <div class="flex items-center gap-3 mb-8 border-b border-slate-200 pb-4">
+              <div class={`h-8 w-1.5 rounded-full ${cat.id === 'motor' ? 'bg-blue-600' : cat.id === 'paper-machine' ? 'bg-orange-500' : cat.id === 'rollers' ? 'bg-emerald-500' : 'bg-teal-500'}`}></div>
+              <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">{cat.name}</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {allCases[cat.id].map(item => (
+                <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all bg-white flex flex-col md:flex-row h-full">
+                  <div class="md:w-2/5 aspect-video md:aspect-auto overflow-hidden bg-slate-100">
+                    <img src={casePlaceholder} alt={item.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div class="p-5 md:w-3/5 flex flex-col">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                      {item.tags.map(tag => (
+                        <span class="px-2 py-0.5 bg-slate-100 text-slate-500 text-[9px] font-bold rounded uppercase tracking-wider">{tag}</span>
+                      ))}
+                    </div>
+                    <h3 class="text-lg font-black text-slate-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">{item.title}</h3>
+                    <p class="text-xs text-slate-500 mb-4 flex items-center">
+                       <span class="w-4 h-4 mr-1 opacity-50 italic">@</span> {item.client}
+                    </p>
+                    <div class="mt-auto pt-4 border-t border-slate-50 flex justify-between items-center">
+                      <span class="text-[10px] font-black text-blue-600 uppercase flex items-center">Case Study <ChevronRight class="w-3 h-3 ml-1"/></span>
+                      <ExternalLink class="w-4 h-4 text-slate-300 group-hover:text-blue-500 transition-colors" />
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </Section>
+</BaseLayout>
+
+<style>
+  html {
+    scroll-behavior: smooth; [cite: 29, 55, 78]
+  }
+</style>

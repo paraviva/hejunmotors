@@ -1,24 +1,127 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PremiumHero from '../components/home/PremiumHero.astro';
-import ServiceHighlights from '../components/home/ServiceHighlights.astro';
-import ImageGrid from '../components/home/ImageGrid.astro';
-import StatsShowcase from '../components/home/StatsShowcase.astro';
-import IndustriesServed from '../components/home/IndustriesServed.astro';
-import TechnologyInnovation from '../components/home/TechnologyInnovation.astro';
-import ProcessWorkflow from '../components/home/ProcessWorkflow.astro';
-import Testimonials from '../components/home/Testimonials.astro';
-import PremiumCTA from '../components/home/PremiumCTA.astro';
+import Section from '../components/ui/Section.astro';
+import { 
+  MapPin, Phone, Mail, Send, Clock 
+} from 'lucide-react';
+
+// 复用背景图
+import rfqBgImg from '@assets/photo-1558618666-fcd25c85cd64.jpg';
+import { Image } from 'astro:assets';
+
+const contactInfo = [
+  {
+    icon: MapPin,
+    title: "Company Location",
+    content: "Building 3, Baolong City Center, Xiaoshan Economic and Technological Development Zone, Hangzhou City, Zhejiang Province, China",
+    color: "text-blue-500"
+  },
+  {
+    icon: Phone,
+    title: "WA / Tel / Wechat",
+    content: "+86 152 5743 2470",
+    link: "tel:+8615257432470",
+    color: "text-emerald-500"
+  },
+  {
+    icon: Mail,
+    title: "E-mail Address",
+    content: "sales@convrmotor.com",
+    link: "mailto:sales@convrmotor.com",
+    color: "text-orange-500"
+  }
+];
 ---
 
-<BaseLayout>
-  <PremiumHero />
-  <ServiceHighlights />
-  <ImageGrid />
-  <IndustriesServed />
-  <TechnologyInnovation />
-  <ProcessWorkflow />
-  <StatsShowcase />
-  <Testimonials />
-  <PremiumCTA />
+<BaseLayout title="Contact Us - Hejun Electromechanical">
+  <section class="relative h-[300px] flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={rfqBgImg} alt="Contact Hejun" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#012D46]/95 to-[#012D46]/80"></div>
+    </div>
+    <div class="container mx-auto relative z-10 px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tight">Get In <span class="text-blue-500">Touch</span></h1>
+      <p class="text-slate-300 max-w-xl mx-auto italic border-l-2 border-blue-500 pl-4 inline-block text-left">
+        Our engineering team is ready to support your industrial requirements.
+      </p>
+    </div>
+  </section>
+
+  <Section background="white">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+        
+        <div class="lg:col-span-2 space-y-8">
+          <div>
+            <h2 class="text-2xl font-black text-slate-900 uppercase mb-2 leading-none">Contact Information</h2>
+            <div class="w-12 h-1.5 bg-blue-600 rounded-full mb-6"></div>
+            <p class="text-slate-500 text-sm leading-relaxed">
+              Have questions about our high-efficiency motors or paper machines? Feel free to reach out through any of these channels.
+            </p>
+          </div>
+
+          <div class="space-y-6">
+            {contactInfo.map((item) => (
+              <div class="flex gap-5 group p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+                <div class={`w-12 h-12 shrink-0 rounded-xl bg-white border border-slate-100 shadow-sm flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
+                  <item.icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.title}</h4>
+                  {item.link ? (
+                    <a href={item.link} class="text-slate-900 font-bold hover:text-blue-600 transition-colors text-sm">{item.content}</a>
+                  ) : (
+                    <p class="text-slate-900 font-bold leading-snug text-sm">{item.content}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="p-6 bg-[#012D46] rounded-3xl text-white relative overflow-hidden group">
+            <Clock className="absolute -right-4 -bottom-4 w-24 h-24 text-white/5 group-hover:rotate-12 transition-transform duration-500" />
+            <h4 class="font-bold flex items-center gap-2 mb-2 text-sm">
+              <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+              Fast Response Time
+            </h4>
+            <p class="text-[11px] text-slate-300 leading-relaxed uppercase tracking-wider">
+              Standard: <strong>Beijing Time (GMT+8)</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 bg-slate-50 rounded-3xl p-8 md:p-10 border border-slate-100 shadow-sm">
+          <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Your Name *</label>
+              <input type="text" placeholder="Full Name" class="w-full px-4 py-3.5 rounded-xl border-none focus:ring-2 focus:ring-blue-500 shadow-sm text-sm" required />
+            </div>
+            <div class="space-y-2">
+              <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Email Address *</label>
+              <input type="email" placeholder="email@company.com" class="w-full px-4 py-3.5 rounded-xl border-none focus:ring-2 focus:ring-blue-500 shadow-sm text-sm" required />
+            </div>
+            <div class="md:col-span-2 space-y-2">
+              <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Inquiry Subject</label>
+              <select class="w-full px-4 py-3.5 rounded-xl border-none focus:ring-2 focus:ring-blue-500 shadow-sm text-sm text-slate-500">
+                <option>General Inquiry</option>
+                <option>Motor Technical Support</option>
+                <option>Paper Machine Solutions</option>
+                <option>Request for Quotation</option>
+              </select>
+            </div>
+            <div class="md:col-span-2 space-y-2">
+              <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Message *</label>
+              <textarea rows="5" placeholder="Please describe your requirements..." class="w-full px-4 py-3.5 rounded-xl border-none focus:ring-2 focus:ring-blue-500 shadow-sm text-sm" required></textarea>
+            </div>
+            <div class="md:col-span-2 pt-2 text-right">
+              <button type="submit" class="w-full md:w-auto px-12 py-4 bg-[#012D46] hover:bg-blue-700 text-white font-black rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs">
+                Send Message <Send className="w-4 h-4" />
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </Section>
 </BaseLayout>
