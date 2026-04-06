@@ -5,19 +5,19 @@ import { Linkedin, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
 const FOOTER_SITEMAP = [
   { name: 'HOME', href: '/' },
   { name: 'ABOUT US', href: '/about' },
-  { name: 'MOTOR', href: '/products' },
-  { name: 'PAPER MACHINE', href: '/products' },
-  { name: 'NEWS', href: '/blog' },
-  { name: 'CASE', href: '/projects' },
-  { name: 'FAQ', href: '/faq' },
-  { name: 'CONTACT', href: '/contact' }
+  { name: 'INDUSTRIAL MOTORS', href: '/products#motors' },
+  { name: 'PAPER MACHINERY', href: '/products#paper-machine' },
+  { name: 'LATEST NEWS', href: '/blog' },
+  { name: 'SUCCESS CASES', href: '/projects' },
+  { name: 'TECHNICAL FAQ', href: '/faq' },
+  { name: 'CONTACT US', href: '/contact' }
 ];
 
 const SOLUTIONS = [
-  { name: 'IE5 PM Motors', href: '/rfq' },
-  { name: 'Paper Machine Drives', href: '/rfq' },
-  { name: 'Explosion-proof Motors', href: '/rfq' },
-  { name: 'Custom OEM Design', href: '/rfq' }
+  { name: 'YX2 High-Voltage Motors', href: '/rfq' },
+  { name: 'YEJ Italian Style Brake', href: '/rfq' },
+  { name: 'YE5 Ultra-Efficiency', href: '/rfq' },
+  { name: 'Cylinder Mold Systems', href: '/rfq' }
 ];
 ---
 
@@ -68,7 +68,7 @@ const SOLUTIONS = [
 
       <div>
         <h3 class="text-sm font-semibold uppercase tracking-wider text-white mb-6 border-l-4 border-blue-500 pl-3">
-          Solutions
+          Product Solutions
         </h3>
         <ul class="space-y-3">
           {SOLUTIONS.map((item) => (
@@ -132,13 +132,9 @@ const SOLUTIONS = [
 </footer>
 
 <script>
-  // Astro 架构中推荐使用这种方式绑定 JS
   const backToTopButton = document.getElementById('back-to-top');
-
   if (backToTopButton) {
-    // 1. 监听滚动事件，控制按钮显示/隐藏
     window.addEventListener('scroll', () => {
-      // 如果滚动高度超过 400px，则显示
       if (window.scrollY > 400) {
         backToTopButton.classList.remove('translate-y-20', 'opacity-0');
         backToTopButton.classList.add('translate-y-0', 'opacity-100');
@@ -148,11 +144,10 @@ const SOLUTIONS = [
       }
     });
 
-    // 2. 监听点击事件，平滑滚动到顶部
     backToTopButton.addEventListener('click', () => {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth' // 这是平滑滚动的关键
+        behavior: 'smooth'
       });
     });
   }
