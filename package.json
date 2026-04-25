@@ -5,8 +5,8 @@
   "description": "Modern Astro.js template for logistics and manufacturing companies",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 astro dev",
+    "build": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -22,5 +22,8 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.17"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0"
   }
 }

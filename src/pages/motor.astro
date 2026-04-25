@@ -3,36 +3,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/ui/Section.astro';
 import Card from '../components/ui/Card.astro';
 import { Image } from 'astro:assets';
-import { 
-  Zap, Target, Search, ArrowRight, Cpu, ChevronRight, Gauge, Shield 
-} from 'lucide-react';
-
-// 假设你已经有了这张背景图，如果没有，请替换为你的实际路径
+import { Zap, Target, Search, Cpu, ChevronRight } from 'lucide-react';
 import rfqBgImg from '@assets/photo-1558618666-fcd25c85cd64.jpg';
 
-// 分类配置
 const motorCategories = [
-  { id: 'high-efficiency', name: 'High-Efficiency Motor', icon: Zap, color: 'text-blue-500' },
-  { id: 'vector-reluctance', name: 'Vector Reluctance Motor', icon: Target, color: 'text-teal-500' }
+  { id: 'high-efficiency-motor', name: 'High-Efficiency Motor', icon: Zap, color: 'text-blue-500' },
+  { id: 'vector-reluctance-motor', name: 'Vector Reluctance Motor', icon: Target, color: 'text-teal-500' }
 ];
 
-// 统一使用 Vector Reluctance 模块的那张更硬核的 Unsplash 图片作为占位图
+const API_URL = import.meta.env.WORDPRESS_API_URL;
+
+const query = `
+query GetMotorProducts {
+  highEfficiency: posts(where: {categoryName: "high-efficiency-motor"}, first: 20) {
+    nodes { title slug excerpt featuredImage { node { sourceUrl } } }
+  }
+  vectorReluctance: posts(where: {categoryName: "vector-reluctance-motor"}, first: 20) {
+    nodes { title slug excerpt featuredImage { node { sourceUrl } } }
+  }
+}
+`;
+
+let highEfficiencyMotors = [];
+let vectorReluctanceMotors = [];
+
+try {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  const { data } = await response.json();
+  highEfficiencyMotors = data?.highEfficiency?.nodes || [];
+  vectorReluctanceMotors = data?.vectorReluctance?.nodes || [];
+} catch (e) {
+  console.error('[motor.astro] API fetch failed:', e);
+}
+
 const placeholderImg = 'https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?q=80&w=800';
-
-// 临时模拟数据 - 后面你可以对接 WordPress API 自动生成这些内容
-const highEfficiencyMotors = [
-  { name: 'HMS-132M-4 Premium', specs: '7.5kW / IE5', img: placeholderImg, wpUrl: '#' },
-  { name: 'HMS-160L-2 Ultra', specs: '18.5kW / IE5', img: placeholderImg, wpUrl: '#' },
-  { name: 'HMS-180M-4 Industrial', specs: '22kW / IE5', img: placeholderImg, wpUrl: '#' },
-  { name: 'HMS-200L-6 Heavy', specs: '30kW / IE5', img: placeholderImg, wpUrl: '#' },
-];
-
-const vectorReluctanceMotors = [
-  { name: 'VRS-100-Series', specs: 'High Torque / VR', img: placeholderImg, wpUrl: '#' },
-  { name: 'VRS-200-Series', specs: 'Precision / VR', img: placeholderImg, wpUrl: '#' },
-  { name: 'VRS-300-Series', specs: 'Dynamic / VR', img: placeholderImg, wpUrl: '#' },
-  { name: 'VRS-400-Series', specs: 'Advanced / VR', img: placeholderImg, wpUrl: '#' },
-];
 ---
 
 <BaseLayout title="Motor Solutions - Hejun Motors">
@@ -99,63 +107,77 @@ const vectorReluctanceMotors = [
       </aside>
 
       <div class="flex-grow space-y-24">
-        
+
         {/* --- High-Efficiency Section --- */}
-        <div id="high-efficiency" class="scroll-mt-28">
+        <div id="high-efficiency-motor" class="scroll-mt-28">
           <div class="flex items-center gap-3 mb-8 border-b border-slate-200 pb-4">
             <div class="h-8 w-1.5 bg-blue-600 rounded-full"></div>
             <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">High-Efficiency Motors</h2>
           </div>
-          
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {highEfficiencyMotors.map(motor => (
-              <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all flex flex-col bg-white">
-                <div class="aspect-square overflow-hidden bg-slate-100">
-                  <img src={motor.img} alt={motor.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                  <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-1">{motor.name}</h3>
-                  <div class="flex items-center mb-4">
-                    <span class="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-black rounded border border-blue-100">{motor.specs}</span>
+
+          {highEfficiencyMotors.length === 0 ? (
+            <p class="text-slate-400 text-sm">No products found.</p>
+          ) : (
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              {highEfficiencyMotors.map(motor => (
+                <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all flex flex-col bg-white">
+                  <div class="aspect-square overflow-hidden bg-slate-100">
+                    <img 
+                      src={motor.featuredImage?.node?.sourceUrl || placeholderImg} 
+                      alt={motor.title} 
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
                   </div>
-                  <div class="mt-auto space-y-2">
-                    <a href={motor.wpUrl} target="_blank" class="w-full py-2 text-center border border-blue-600 text-blue-600 text-[10px] font-black rounded hover:bg-blue-600 hover:text-white transition-all block">VIEW DETAILS</a>
-                    
-                    <a href="/rfq" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded hover:bg-slate-950 block transition-colors shadow-sm">INQUIRY</a>
+                  <div class="p-4 flex flex-col flex-grow">
+                    <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-1">{motor.title}</h3>
+                    <div class="flex items-center mb-4">
+                      <span class="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-black rounded border border-blue-100">IE5</span>
+                    </div>
+                    <div class="mt-auto space-y-2">
+                      <a href={`/motor/${motor.slug}`} class="w-full py-2 text-center border border-blue-600 text-blue-600 text-[10px] font-black rounded hover:bg-blue-600 hover:text-white transition-all block">VIEW DETAILS</a>
+                      <button onclick="window.openInquiryModal()" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded cursor-pointer block shadow-sm">INQUIRY</button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* --- Vector Reluctance Section --- */}
-        <div id="vector-reluctance" class="scroll-mt-28">
+        <div id="vector-reluctance-motor" class="scroll-mt-28">
           <div class="flex items-center gap-3 mb-8 border-b border-slate-200 pb-4">
             <div class="h-8 w-1.5 bg-teal-500 rounded-full"></div>
             <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Vector Reluctance Motors</h2>
           </div>
-          
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            {vectorReluctanceMotors.map(motor => (
-              <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all flex flex-col bg-white">
-                <div class="aspect-square overflow-hidden bg-slate-100">
-                  <img src={motor.img} alt={motor.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                </div>
-                <div class="p-4 flex flex-col flex-grow">
-                  <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-1">{motor.name}</h3>
-                  <div class="flex items-center mb-4">
-                    <span class="px-1.5 py-0.5 bg-teal-50 text-teal-600 text-[10px] font-black rounded border border-teal-100">{motor.specs}</span>
+
+          {vectorReluctanceMotors.length === 0 ? (
+            <p class="text-slate-400 text-sm">No products found.</p>
+          ) : (
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+              {vectorReluctanceMotors.map(motor => (
+                <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all flex flex-col bg-white">
+                  <div class="aspect-square overflow-hidden bg-slate-100">
+                    <img 
+                      src={motor.featuredImage?.node?.sourceUrl || placeholderImg} 
+                      alt={motor.title} 
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
                   </div>
-                  <div class="mt-auto space-y-2">
-                    <a href={motor.wpUrl} target="_blank" class="w-full py-2 text-center border border-teal-600 text-teal-600 text-[10px] font-black rounded hover:bg-teal-600 hover:text-white transition-all block">VIEW DETAILS</a>
-                    
-                    <a href="/rfq" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded hover:bg-slate-950 block transition-colors shadow-sm">INQUIRY</a>
+                  <div class="p-4 flex flex-col flex-grow">
+                    <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-1">{motor.title}</h3>
+                    <div class="flex items-center mb-4">
+                      <span class="px-1.5 py-0.5 bg-teal-50 text-teal-600 text-[10px] font-black rounded border border-teal-100">VR</span>
+                    </div>
+                    <div class="mt-auto space-y-2">
+                      <a href={`/motor/${motor.slug}`} class="w-full py-2 text-center border border-teal-600 text-teal-600 text-[10px] font-black rounded hover:bg-teal-600 hover:text-white transition-all block">VIEW DETAILS</a>
+                      <button onclick="window.openInquiryModal()" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded cursor-pointer block shadow-sm">INQUIRY</button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
 
       </div>

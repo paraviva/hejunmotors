@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { CheckCircle2, ArrowLeft, Download, Clock, ShieldCheck, Headphones } from 'lucide-react';
+
+// 假设你有一个通用的背景图，或者复用之前的图片
+import thankYouBg from '@assets/photo-1558618666-fcd25c85cd64.jpg'; 
+---
+
+<BaseLayout title="Inquiry Sent - Hejun Motors">
+  <!-- 1. Hero Section: 成功反馈 -->
+  <section class="relative py-24 md:py-32 bg-slate-900 overflow-hidden">
+    <!-- 背景图与遮罩 -->
+    <div class="absolute inset-0">
+      <img 
+        src={thankYouBg} 
+        alt="Industrial Background" 
+        class="w-full h-full object-cover opacity-20"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/95 to-slate-900"></div>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <!-- 成功图标 -->
+        <div class="inline-flex items-center justify-center w-20 h-20 mb-8 rounded-full bg-gradient-to-br from-blue-500 to-teal-500 shadow-lg shadow-blue-500/30 animate-fade-in-up">
+          <CheckCircle2 class="w-10 h-10 text-white" />
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+          Inquiry Received Successfully!
+        </h1>
+        
+        <p class="text-lg md:text-xl text-slate-300 mb-10 leading-relaxed">
+          Thank you for contacting Hejun Motors. We have received your requirements and our engineering team will review them shortly.
+        </p>
+
+        <!-- 按钮组 -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a 
+            href="/" 
+            class="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white transition-all duration-200 bg-blue-600 rounded-full hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-slate-900"
+          >
+            <ArrowLeft class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back to Home
+          </a>
+          
+          <a 
+            href="/catalog" 
+            class="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-300 transition-all duration-200 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/20 focus:ring-offset-slate-900 backdrop-blur-sm"
+          >
+            <Download class="w-5 h-5 mr-2" />
+            Download Catalog
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Next Steps / Trust Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-slate-900 mb-4">What Happens Next?</h2>
+        <p class="text-slate-600 max-w-2xl mx-auto">
+          We value your time. Our team is committed to providing a precise solution for your industrial needs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+          <div class="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-blue-100 text-blue-600">
+            <Clock class="w-7 h-7" />
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Quick Response</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Expect a preliminary reply within <span class="font-semibold text-blue-600">24 hours</span> regarding your inquiry status.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+          <div class="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-teal-100 text-teal-600">
+            <ShieldCheck class="w-7 h-7" />
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Technical Validation</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Our engineers will verify your specifications (Motor parameters or Paper Machine capacity).
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="flex flex-col items-center text-center p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-xl transition-shadow duration-300">
+          <div class="w-14 h-14 mb-6 flex items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
+            <Headphones class="w-7 h-7" />
+          </div>
+          <h3 class="text-xl font-bold text-slate-900 mb-3">Solution Proposal</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            We will send a detailed proposal including technical solutions and a preliminary quotation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
