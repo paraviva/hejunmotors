@@ -10,29 +10,57 @@ import {
 // 复用 RFQ 的背景图
 import rfqBgImg from '@assets/photo-1558618666-fcd25c85cd64.jpg';
 
-// 分类配置
+// --- 核心：从 WordPress 获取动态数据 ---
+const API_URL = import.meta.env.WORDPRESS_API_URL;
+
+const query = `
+  query GetPaperProducts {
+    # 抓取造纸机分类 (slug: paper-machine-paper-machine)
+    machineProducts: posts(where: { categoryName: "paper-machine-paper-machine" }, first: 100) {
+      nodes {
+        title
+        slug
+        featuredImage {
+          node { source_url: sourceUrl }
+        }
+      }
+    }
+    # 抓取瓦楞辊分类 (slug: corrugating-roll)
+    rollProducts: posts(where: { categoryName: "corrugating-roll" }, first: 100) {
+      nodes {
+        title
+        slug
+        featuredImage {
+          node { source_url: sourceUrl }
+        }
+      }
+    }
+  }
+`;
+
+let paperMachines = [];
+let corrugatingRolls = [];
+
+try {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  const { data } = await response.json();
+  paperMachines = data.machineProducts.nodes;
+  corrugatingRolls = data.rollProducts.nodes;
+} catch (e) {
+  console.error("Fetch paper products failed", e);
+}
+
+// 分类配置 (用于侧边栏)
 const machineCategories = [
   { id: 'paper-machine', name: 'Paper Machine', icon: Settings, color: 'text-blue-600' },
   { id: 'corrugating-roll', name: 'Corrugating Roll', icon: Layers, color: 'text-orange-500' }
 ];
 
-// 临时占位图（建议找一张硬核的造纸设备图，这里先统一用一张高质量工业图）
 const machinePlaceholder = 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=800';
-
-// 模拟数据
-const paperMachines = [
-  { name: 'Fourdrinier Paper Machine', specs: 'Width: 3200mm | 600m/min', img: machinePlaceholder, wpUrl: '#' },
-  { name: 'Tissue Paper Line', specs: '15-30t/d | Energy Saving', img: machinePlaceholder, wpUrl: '#' },
-  { name: 'Kraft Paper Machine', specs: 'Multi-cylinder | High Strength', img: machinePlaceholder, wpUrl: '#' },
-  { name: 'Culture Paper System', specs: 'Automated Control | A4/A3', img: machinePlaceholder, wpUrl: '#' },
-];
-
-const corrugatingRolls = [
-  { name: 'Tungsten Carbide Roll', specs: 'High Hardness | Long Life', img: machinePlaceholder, wpUrl: '#' },
-  { name: 'Chrome Plated Roll', specs: 'Precision Flute | Anti-Corrosion', img: machinePlaceholder, wpUrl: '#' },
-  { name: 'Peripheral Heating Roll', specs: 'Uniform Temp | High Speed', img: machinePlaceholder, wpUrl: '#' },
-  { name: 'Custom Flute Profile', specs: 'A/B/C/E/F Flute Design', img: machinePlaceholder, wpUrl: '#' },
-];
 ---
 
 <BaseLayout title="Paper Machinery Solutions - Hejun Motors">
@@ -63,12 +91,9 @@ const corrugatingRolls = [
         </div>
         <input 
           type="text" 
-          placeholder="Search machines or rolls (e.g. Tungsten, 3200mm)..." 
+          placeholder="Search machines or rolls..." 
           class="block w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-slate-400 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white/20 transition-all"
         />
-        <button class="absolute right-2 top-2 bottom-2 px-6 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold transition-colors">
-          Search
-        </button>
       </div>
     </div>
   </section>
@@ -100,27 +125,27 @@ const corrugatingRolls = [
 
       <div class="flex-grow space-y-24">
         
-        {/* --- Paper Machine Section --- */}
         <div id="paper-machine" class="scroll-mt-28">
           <div class="flex items-center gap-3 mb-8 border-b border-slate-200 pb-4">
             <div class="h-8 w-1.5 bg-blue-600 rounded-full"></div>
             <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Paper Machine Systems</h2>
           </div>
           
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5">
             {paperMachines.map(item => (
               <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all flex flex-col bg-white">
                 <div class="aspect-square overflow-hidden bg-slate-100">
-                  <img src={item.img} alt={item.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img 
+                    src={item.featuredImage?.node?.source_url || machinePlaceholder} 
+                    alt={item.title} 
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  />
                 </div>
                 <div class="p-4 flex flex-col flex-grow">
-                  <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-1">{item.name}</h3>
-                  <div class="flex items-center mb-4">
-                    <span class="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-black rounded border border-blue-100 uppercase italic">Specs Verified</span>
-                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 mb-4 line-clamp-2 min-h-[40px] uppercase">{item.title}</h3>
                   <div class="mt-auto space-y-2">
-                    <a href={item.wpUrl} target="_blank" class="w-full py-2 text-center border border-blue-600 text-blue-600 text-[10px] font-black rounded hover:bg-blue-600 hover:text-white transition-all block">VIEW DETAILS</a>
-                    <a href="/rfq" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded hover:bg-slate-950 block transition-colors shadow-sm">INQUIRY</a>
+                    <a href={`/paper-machine/${item.slug}`} class="w-full py-2 text-center border border-blue-600 text-blue-600 text-[10px] font-black rounded hover:bg-blue-600 hover:text-white transition-all block">VIEW DETAILS</a>
+                    <button onclick="window.openInquiryModal()" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded hover:bg-slate-950 block transition-colors shadow-sm">INQUIRY</button>
                   </div>
                 </div>
               </Card>
@@ -128,27 +153,27 @@ const corrugatingRolls = [
           </div>
         </div>
 
-        {/* --- Corrugating Roll Section --- */}
         <div id="corrugating-roll" class="scroll-mt-28">
           <div class="flex items-center gap-3 mb-8 border-b border-slate-200 pb-4">
             <div class="h-8 w-1.5 bg-orange-500 rounded-full"></div>
             <h2 class="text-2xl font-black text-slate-900 tracking-tight uppercase">Corrugating Rolls</h2>
           </div>
           
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5">
             {corrugatingRolls.map(item => (
               <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-2xl transition-all flex flex-col bg-white">
                 <div class="aspect-square overflow-hidden bg-slate-100">
-                  <img src={item.img} alt={item.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img 
+                    src={item.featuredImage?.node?.source_url || machinePlaceholder} 
+                    alt={item.title} 
+                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  />
                 </div>
                 <div class="p-4 flex flex-col flex-grow">
-                  <h3 class="text-sm font-bold text-slate-900 mb-1 line-clamp-1">{item.name}</h3>
-                  <div class="flex items-center mb-4">
-                    <span class="px-1.5 py-0.5 bg-orange-50 text-orange-600 text-[10px] font-black rounded border border-orange-100 uppercase italic">Precision Roll</span>
-                  </div>
+                  <h3 class="text-sm font-bold text-slate-900 mb-4 line-clamp-2 min-h-[40px] uppercase">{item.title}</h3>
                   <div class="mt-auto space-y-2">
-                    <a href={item.wpUrl} target="_blank" class="w-full py-2 text-center border border-orange-500 text-orange-500 text-[10px] font-black rounded hover:bg-orange-500 hover:text-white transition-all block">VIEW DETAILS</a>
-                    <a href="/rfq" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded hover:bg-slate-950 block transition-colors shadow-sm">INQUIRY</a>
+                    <a href={`/paper-machine/${item.slug}`} class="w-full py-2 text-center border border-orange-500 text-orange-500 text-[10px] font-black rounded hover:bg-orange-500 hover:text-white transition-all block">VIEW DETAILS</a>
+                    <button onclick="window.openInquiryModal()" class="w-full py-2 text-center bg-slate-800 text-white text-[10px] font-bold rounded hover:bg-slate-950 block transition-colors shadow-sm">INQUIRY</button>
                   </div>
                 </div>
               </Card>
