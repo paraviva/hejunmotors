@@ -1,5 +1,6 @@
 ---
-export const prerender = false;
+// 🎯 核心修正 1：移除 SSR，明确指定为静态预渲染（或者直接删掉此行，Astro 默认即静态）
+export const prerender = true;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/ui/Section.astro';
@@ -10,6 +11,33 @@ import { Image } from 'astro:assets';
 
 // 2. 导入你的新背景图
 import headerBgImg from '@assets/Efficiency-by-Design.webp';
+
+// 🎯 核心修正 2：添加 getStaticPaths 函数，在打包时从 WordPress 捞出所有新闻的 slugs
+export async function getStaticPaths() {
+  const API_URL = import.meta.env.WORDPRESS_API_URL;
+  const query = `
+    query GetAllNewsSlugs {
+      posts(where: {categoryName: "news"}, first: 100) {
+        nodes { slug }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query }),
+    });
+    const { data } = await response.json();
+    return data.posts.nodes.map((post) => ({
+      params: { slug: post.slug },
+    }));
+  } catch (e) {
+    console.error("❌ News static paths fetch failed:", e);
+    return [];
+  }
+}
 
 // 1. 获取 URL 参数
 const { slug } = Astro.params;
