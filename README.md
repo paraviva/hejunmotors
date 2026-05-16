@@ -90,7 +90,7 @@ The RFQ form (`src/components/react/RFQForm.tsx`) currently logs form data to th
    - Use [Formspree](https://formspree.io/), [Netlify Forms](https://www.netlify.com/products/forms/), or similar
    - Update the `handleSubmit` function in `RFQForm.tsx`
 
-2. **Option 2: Custom API**
+2. **Option 2: Custom API** 
    - Create an API endpoint
    - Update the form submission handler 
 
