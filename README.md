@@ -92,7 +92,7 @@ The RFQ form (`src/components/react/RFQForm.tsx`) currently logs form data to th
 
 2. **Option 2: Custom API**
    - Create an API endpoint
-   - Update the form submission handler
+   - Update the form submission handler 
 
 Example with Formspree:
 ```typescript

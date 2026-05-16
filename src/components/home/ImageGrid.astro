@@ -2,49 +2,70 @@
 import ImageReveal from '@components/react/ImageReveal';
 import { Image } from 'astro:assets';
 
-// 1. 导入你找到的这张图片
-import tempProductImg from '@assets/Efficiency-by-Design.webp';
+// 1. 获取环境变量
+const API_URL = import.meta.env.WORDPRESS_API_URL;
 
-const products = [
-  // --- 前3个：电机系列 (统一使用 tempProductImg) ---
-  {
-    model: "YX2 Series",
-    title: "High Voltage Motors",
-    img: tempProductImg,
-    delay: 0
-  },
-  {
-    model: "YEJ Series",
-    title: "Italian Style Brake Motors",
-    img: tempProductImg,
-    delay: 0.1
-  },
-  {
-    model: "YE5 Series",
-    title: "High-Efficiency Motors",
-    img: tempProductImg,
-    delay: 0.2
-  },
-  // --- 后3个：造纸机械系列 (统一使用 tempProductImg) ---
-  {
-    model: "Specialized",
-    title: "Special Paper Machine",
-    img: tempProductImg,
-    delay: 0.3
-  },
-  {
-    model: "Coated Line",
-    title: "Paper Coated Whiteboard Machine",
-    img: tempProductImg,
-    delay: 0.4
-  },
-  {
-    model: "Krafts System",
-    title: "Cylinder Mold Kraft Paper Machine",
-    img: tempProductImg,
-    delay: 0.5
-  }
-];
+let products = [];
+
+try {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // 2. GraphQL 查询：确保取到 categories 的 slug 用于判断路径
+    body: JSON.stringify({
+      query: `
+        query GetFeaturedProducts {
+          posts(first: 6) {
+            nodes {
+              title
+              slug
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  slug
+                }
+              }
+            }
+          }
+        }
+      `,
+    }),
+  });
+
+  const json = await response.json();
+  const nodes = json.data?.posts?.nodes || [];
+
+  // 3. 核心逻辑：根据分类动态生成 href
+  products = nodes.map((post, index) => {
+    const wpCategorySlug = post.categories?.nodes[0]?.slug || '';
+    const wpCategoryName = post.categories?.nodes[0]?.name || "HEJUN SERIES";
+    
+    // 映射：如果 WP 分类别名包含 'motor' 就走 /motor/ 路径，否则走 /paper-machine/
+    let pathPrefix = 'motor'; 
+    if (wpCategorySlug.toLowerCase().includes('paper')) {
+      pathPrefix = 'paper-machine';
+    }
+
+    return {
+      model: wpCategoryName, 
+      title: post.title,
+      img: post.featuredImage?.node?.sourceUrl || "/image/placeholder-product.webp", 
+      href: `/${pathPrefix}/${post.slug}/`, // 生成类似 /motor/ye4-series/ 的路径
+      delay: index * 0.1
+    };
+  });
+
+} catch (error) {
+  console.error("❌ GraphQL Fetch Error:", error);
+  products = [];
+}
 ---
 
 <section class="py-24 bg-white">
@@ -60,39 +81,45 @@ const products = [
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {products.map((product) => (
-        <ImageReveal client:load delay={product.delay}>
-          <div class="group bg-white rounded-sm border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-500">
-            <div class="relative h-72 overflow-hidden bg-slate-50 border-b border-slate-100">
-              <Image 
-                src={product.img}
-                alt={product.title}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[50%] group-hover:grayscale-0"
-                width={800}
-                height={600}
-              />
-            </div>
-
-            <div class="p-8">
-              <div class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">
-                {product.model}
-              </div>
-              <h3 class="text-xl font-black text-slate-900 uppercase italic mb-6 leading-tight min-h-[3rem]">
-                {product.title}
-              </h3>
+      {products.length > 0 ? (
+        products.map((product) => (
+          <ImageReveal client:load delay={product.delay}>
+            <div class="group bg-white rounded-sm border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-500">
               
-              <div class="pt-4 border-t border-slate-100">
-                <a href="/products" class="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-blue-600 transition-colors">
-                  View More
-                  <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
+              <div class="relative h-72 overflow-hidden bg-slate-50 border-b border-slate-100">
+                <img 
+                  src={product.img}
+                  alt={product.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale-[50%] group-hover:grayscale-0"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="p-8">
+                <div class="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">
+                  {product.model}
+                </div>
+                <h3 class="text-xl font-black text-slate-900 uppercase italic mb-6 leading-tight min-h-[3rem]">
+                  <Fragment set:html={product.title} />
+                </h3>
+                
+                <div class="pt-4 border-t border-slate-100">
+                  <a href={product.href} class="inline-flex items-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-blue-600 transition-colors">
+                    View Detail
+                    <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </ImageReveal>
-      ))}
+          </ImageReveal>
+        ))
+      ) : (
+        <div class="col-span-full py-20 text-center text-slate-400">
+          <p>No products found in WordPress. Please check your categories and featured images.</p>
+        </div>
+      )}
     </div>
 
   </div>

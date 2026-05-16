@@ -10,59 +10,64 @@ import {
 // 复用背景图
 import rfqBgImg from '@assets/photo-1558618666-fcd25c85cd64.jpg';
 
-// 模拟新闻数据
-const newsList = [
-  {
-    title: "FAQ for Motor Manufacturers",
-    date: "2026-01-17",
-    excerpt: "This article introduces common issues faced by motor manufacturers and their solutions, helping to optimize production efficiency...",
-    category: "Industry Knowledge"
-  },
-  {
-    title: "Key Points to Consider When Choosing a Motor Manufacturer",
-    date: "2026-01-17",
-    excerpt: "Selecting a reliable motor manufacturer is crucial for the development of any enterprise. This guide covers the essential evaluation criteria...",
-    category: "Guides"
-  },
-  {
-    title: "Application Scenarios of High-Quality Motor Manufacturers are Diversified",
-    date: "2026-01-17",
-    excerpt: "Electric motors are the core components of various modern equipment, and high-quality motors are expanding into new high-tech fields...",
-    category: "Market Trends"
-  },
-  {
-    title: "Quality Inspection System and Standards of Permanent Magnet Synchronous Motor",
-    date: "2026-01-17",
-    excerpt: "The inspection of raw materials is the primary checkpoint. Learn about the rigorous standards required for high-performance PMSM units...",
-    category: "Technical"
-  },
-  {
-    title: "Encyclopedia of Motor Manufacturers",
-    date: "2026-01-17",
-    excerpt: "This article provides essential knowledge about motor manufacturers, covering their classifications and global industry impact...",
-    category: "Education"
-  },
-  {
-    title: "Exploring the Charm and Future of Zhejiang Motor Manufacturers",
-    date: "2026-01-17",
-    excerpt: "Take an in-depth look at Zhejiang motor manufacturers and uncover their pivotal role in the global industrial supply chain...",
-    category: "Local Industry"
-  },
-  {
-    title: "Advancements in Control Algorithms Unlock Full Potential of Vector Reluctance Motors",
-    date: "2025-12-26",
-    excerpt: "HEJUN's R&D team has introduced a new control algorithm pushing the boundaries of precision automation and torque response...",
-    category: "R&D News"
-  },
-  {
-    title: "Independent Study Confirms Superior Lifecycle Cost Advantage in Marine Propulsion",
-    date: "2025-12-26",
-    excerpt: "A white paper by the The 715th Research Institute of China highlights the efficiency gains of Vector Reluctance technology...",
-    category: "White Paper"
-  }
-];
+// --- API 数据获取开始 ---
+const API_URL = import.meta.env.WORDPRESS_API_URL;
+let newsList = [];
 
-// 侧边栏最新产品
+try {
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: `
+        query GetNewsPage {
+          posts(where: {categoryName: "news"}, first: 10) {
+            nodes {
+              title
+              slug
+              date
+              excerpt
+              categories {
+                nodes {
+                  name
+                }
+              }
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+            }
+          }
+        }
+      `,
+    }),
+  });
+
+  const json = await response.json();
+  const nodes = json.data?.posts?.nodes || [];
+
+  newsList = nodes.map((post) => ({
+    title: post.title,
+    slug: post.slug,
+    date: new Date(post.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }),
+    // 提取第一个分类，如果没有则显示 Industry
+    category: post.categories?.nodes[0]?.name || "Industry",
+    // 格式化摘要
+    excerpt: post.excerpt?.replace(/<[^>]*>/g, '').slice(0, 150) + '...',
+    // 使用特色图片，没有则使用 Unsplash 工业图兜底
+    img: post.featuredImage?.node?.sourceUrl || "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=800",
+    href: `/news/${post.slug}/`
+  }));
+} catch (error) {
+  console.error("❌ News Page API Error:", error);
+}
+// --- API 数据获取结束 ---
+
 const latestProducts = [
   { name: "IE5 Super Premium Motor", icon: Zap, href: "/motor#high-efficiency" },
   { name: "VRS Series Vector Motor", icon: Target, href: "/motor#vector-reluctance" },
@@ -77,8 +82,8 @@ const latestProducts = [
       <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-blue-900/80"></div>
     </div>
     <div class="container mx-auto relative z-10 px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter">Insights & <span class="text-blue-500">News</span></h1>
-      <p class="text-slate-300 max-w-2xl mx-auto italic">Stay updated with the latest technological advancements in industrial motors and machinery.</p>
+      <h1 class="text-4xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter italic">Insights & <span class="text-blue-500">News</span></h1>
+      <p class="text-slate-300 max-w-2xl mx-auto italic border-l-2 border-blue-500 inline-block px-4">Stay updated with the latest technological advancements in industrial motors and machinery.</p>
     </div>
   </section>
 
@@ -94,20 +99,20 @@ const latestProducts = [
               <input 
                 type="text" 
                 placeholder="Search articles..." 
-                class="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-blue-500"
+                class="w-full pl-10 pr-4 py-3 bg-slate-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
           </div>
 
           <nav class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
             <h4 class="text-xs font-black text-slate-900 uppercase tracking-widest mb-4 flex items-center gap-2">
-              <Newspaper className="w-4 h-4 text-blue-600" /> Latest Posts
+              <Newspaper className="w-4 h-4 text-blue-600" /> Recent Posts
             </h4>
             <div class="space-y-4">
               {newsList.slice(0, 3).map(news => (
-                <a href="#" class="block group">
+                <a href={news.href} class="block group">
                   <p class="text-[11px] text-slate-400 mb-1">{news.date}</p>
-                  <p class="text-[13px] font-bold text-slate-700 group-hover:text-blue-600 line-clamp-2 transition-colors">{news.title}</p>
+                  <p class="text-[13px] font-bold text-slate-700 group-hover:text-blue-600 line-clamp-2 transition-colors uppercase italic"><Fragment set:html={news.title} /></p>
                 </a>
               ))}
             </div>
@@ -131,12 +136,12 @@ const latestProducts = [
       </aside>
 
       <div class="flex-grow space-y-6">
-        {newsList.map((item) => (
+        {newsList.length > 0 ? newsList.map((item) => (
           <Card class="group p-0 overflow-hidden border-slate-200 hover:shadow-xl transition-all bg-white">
             <div class="flex flex-col md:flex-row">
               <div class="md:w-1/3 aspect-video md:aspect-auto bg-slate-100 overflow-hidden">
                 <img 
-                  src={`https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=400&sig=${Math.random()}`} 
+                  src={item.img} 
                   alt={item.title} 
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                 />
@@ -150,8 +155,8 @@ const latestProducts = [
                   </span>
                 </div>
                 
-                <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
-                  {item.title}
+                <h3 class="text-xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight uppercase italic">
+                   <a href={item.href}><Fragment set:html={item.title} /></a>
                 </h3>
                 
                 <p class="text-sm text-slate-500 mb-6 line-clamp-2 leading-relaxed italic">
@@ -159,20 +164,25 @@ const latestProducts = [
                 </p>
                 
                 <div class="mt-auto flex items-center justify-between border-t border-slate-50 pt-4">
-                  <a href="#" class="text-xs font-black text-[#012D46] hover:text-blue-600 flex items-center gap-1 group/btn">
+                  <a href={item.href} class="text-xs font-black text-[#012D46] hover:text-blue-600 flex items-center gap-1 group/btn">
                     READ DETAILS <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                   </a>
-                  <span class="text-[10px] text-slate-300 font-bold">HEJUN INSIGHTS</span>
+                  <span class="text-[10px] text-slate-300 font-bold uppercase tracking-widest">Hejun Insights</span>
                 </div>
               </div>
             </div>
           </Card>
-        ))}
+        )) : (
+          <div class="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300">
+            <p class="text-slate-400 italic">Updating latest news...</p>
+          </div>
+        )}
 
+        {/* 分页功能暂定静态，后期有需求再接 */}
         <div class="flex justify-center pt-8 gap-2">
-          <button class="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-blue-600 font-bold shadow-sm">1</button>
+          <button class="w-10 h-10 rounded-lg bg-blue-600 text-white font-bold shadow-lg shadow-blue-200">1</button>
           <button class="w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors shadow-sm">2</button>
-          <button class="px-4 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors shadow-sm font-bold text-xs">NEXT</button>
+          <button class="px-4 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors shadow-sm font-bold text-xs uppercase tracking-widest">Next Page</button>
         </div>
       </div>
 

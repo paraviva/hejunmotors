@@ -1,11 +1,10 @@
 ---
 import MobileMenu from '@components/react/MobileMenu';
-import { Mail, Phone, Facebook, Linkedin, Twitter, Instagram, ChevronDown } from 'lucide-react';
+import { Mail, Phone, Facebook, Linkedin, Twitter, Instagram, ChevronDown, Menu } from 'lucide-react';
 
 const { currentPathname } = Astro.props;
 const isActiveLink = (href: string) : boolean => { 
   if (href === '/' && currentPathname === '/') return true;
-  // 增加对锚点链接的激活判断支持
   const pureHref = href.split('#')[0];
   if (pureHref !== '/' && currentPathname?.startsWith(pureHref)) return true;
   return false;
@@ -35,7 +34,6 @@ const menuConfig = [
     name: 'CASE', 
     href: '/cases',
     children: [
-      // ✅ 这里已修正：从 /cases/motor 改为 /cases#motor
       { name: 'Motor Projects', href: '/cases#motor' },
       { name: 'Paper Machine Projects', href: '/cases#paper-machine' },
       { name: 'Rollers Projects', href: '/cases#rollers' },
@@ -73,7 +71,7 @@ const menuConfig = [
   <div class="py-3 px-4 sm:px-6 lg:px-8 border-b border-slate-50">
     <div class="container mx-auto flex items-center justify-between">
       <a href="/" class="flex-shrink-0">
-        <img src="/image/hejunlogo-v2.png" alt="Hejun Logo" class="h-16 w-auto" />
+        <img src="/image/hejunlogo-v2.png" alt="Hejun Logo" class="h-12 md:h-16 w-auto" />
       </a>
 
       <div class="hidden lg:flex items-center gap-10 border-l border-slate-100 pl-10 ml-10">
@@ -108,11 +106,19 @@ const menuConfig = [
         </div>
       </div>
 
-      <a href="/rfq" class="hidden sm:inline-flex items-center px-9 py-3.5 text-[15px] font-bold text-white bg-[#012D46] hover:bg-[#001f30] rounded shadow-md transition-all uppercase tracking-wider flex-shrink-0">Request Quote</a>
+      <div class="flex items-center gap-3">
+        <a href="/rfq" class="hidden sm:inline-flex items-center px-6 lg:px-9 py-3 text-[14px] lg:text-[15px] font-bold text-white bg-[#012D46] hover:bg-[#001f30] rounded shadow-md transition-all uppercase tracking-wider flex-shrink-0">
+          Request Quote
+        </a>
+
+        <div class="lg:hidden">
+          <MobileMenu client:load menuConfig={menuConfig} />
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="bg-white border-b border-slate-200 sticky top-0 z-50 hidden md:block">
+  <div class="bg-white border-b border-slate-200 sticky top-0 z-50 hidden lg:block">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <ul class="flex items-center justify-between min-w-full">
         {menuConfig.map((item) => {
@@ -121,14 +127,14 @@ const menuConfig = [
             <li class="relative group">
               <a
                 href={item.href}
-                class={`py-5 text-[17px] font-bold flex items-center gap-1.5 transition-all tracking-normal whitespace-nowrap uppercase ${active ? 'text-[#012D46]' : 'text-slate-900 hover:text-[#012D46]'}`}
+                class={`py-5 text-[16px] xl:text-[17px] font-bold flex items-center gap-1.5 transition-all tracking-normal whitespace-nowrap uppercase ${active ? 'text-[#012D46]' : 'text-slate-900 hover:text-[#012D46]'}`}
               >
                 {item.name}
                 {item.children && <ChevronDown className="w-4 h-4 opacity-40 group-hover:rotate-180 transition-transform" />}
               </a>
 
               {item.children && (
-                <div class="absolute top-full left-0 w-68 bg-white shadow-2xl border border-slate-100 py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-0 z-50">
+                <div class="absolute top-full left-0 w-64 bg-white shadow-2xl border border-slate-100 py-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-0 z-50">
                   {item.children.map((sub) => (
                     <a href={sub.href} class="block px-8 py-3.5 text-[15px] font-medium text-slate-600 hover:text-white hover:bg-[#012D46] transition-all capitalize">
                       {sub.name}

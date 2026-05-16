@@ -7,12 +7,35 @@ import TechnologyInnovation from '../components/home/TechnologyInnovation.astro'
 import ProcessWorkflow from '../components/home/ProcessWorkflow.astro';
 import Testimonials from '../components/home/Testimonials.astro';
 import PremiumCTA from '../components/home/PremiumCTA.astro';
+
+// 🎯 核心修正：引入你指定的本地真实 WebP 资产（对应你电脑上的实际资产路径）
+import headerBgImg from '../assets/Efficiency-by-Design.webp';
+
+// 🎯 针对 Hejun 品牌定制的独立首页 SEO 元数据
+const homepageSEO = {
+  // 1. Title 控制在 60 字符左右：品牌名 + 工业级拳头核心产品大词
+  title: "Hejun Motors | Premium IE5 Electric Motors & Paper Machine Manufacturer",
+  
+  // 2. Description 控制在 150-160 字符：交代核心优势、IEC/NEMA标准和一句话主营产品线
+  description: "Hejun Electromechanical designs and manufactures high-efficiency IE5 electric motors, vector reluctance drives, and industrial paper machinery solutions compliant with IEC & NEMA standards.",
+  
+  // 3. 首页规范链接，直接锁死线上独立站主域名根节点
+  canonicalUrl: "https://www.hejun-motors.com/",
+  
+  // 4. 🎯 绝不杜撰：直接读取真实 WebP 图片资产优化后的线上绝对路径作为 Open Graph 社交分享图
+  ogImage: headerBgImg.src 
+};
 ---
 
-<BaseLayout>
+<BaseLayout 
+  title={homepageSEO.title} 
+  description={homepageSEO.description}
+  canonicalUrl={homepageSEO.canonicalUrl}
+  ogImage={homepageSEO.ogImage}
+>
   <PremiumHero />
-  <ServiceHighlights />
   <ImageGrid />
+  <ServiceHighlights />
   <TechnologyInnovation />
   <ProcessWorkflow />
   <Testimonials />

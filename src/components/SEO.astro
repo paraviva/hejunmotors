@@ -1,0 +1,46 @@
+---
+// src/components/SEO.astro
+import { SEO as AstroSEO } from 'astro-seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const { title, description, ogImage, canonicalUrl } = Astro.props;
+
+// 🎯 这里配置你网站最终正式域名的全局兜底信息
+const defaultTitle = "Hejun Electromechanical | High-End Industrial Engineering Solutions";
+const defaultDesc = "Leading manufacturer of high-performance electric motors, paper machine components, and vector reluctance technology worldwide.";
+const defaultOgImage = "https://www.hejun-motors.com/assets/images/default-share.jpg"; // 客户的默认分享大图
+const currentUrl = canonicalUrl || Astro.url.href;
+---
+
+<AstroSEO
+  title={title}
+  description={description || defaultDesc}
+  canonical={currentUrl}
+  openGraph={{
+    basic: {
+      title: title || defaultTitle,
+      type: "website",
+      image: ogImage || defaultOgImage,
+      url: currentUrl,
+    }
+  }}
+  twitter={{
+    card: "summary_large_image",
+    title: title || defaultTitle,
+    description: description || defaultDesc,
+    image: ogImage || defaultOgImage
+  }}
+  extend={{
+    meta: [
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "robots", content: "index, follow" },
+      { name: "googlebot", content: "index, follow" }
+    ]
+  }}
+/>

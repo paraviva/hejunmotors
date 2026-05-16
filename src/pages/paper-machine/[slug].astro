@@ -44,6 +44,15 @@ const query = `
       featuredImage {
         node { source_url: sourceUrl }
       }
+      # 🎯 核心注入：对接 WPGraphQL Yoast SEO，把造纸机产品的 TDK 全打包带走
+      seo {
+        title
+        metaDesc
+        canonical
+        opengraphImage {
+          sourceUrl
+        }
+      }
     }
   }
 `;
@@ -70,7 +79,12 @@ const paperCategories = [
 ];
 ---
 
-<BaseLayout title={`${product.title} - Hejun Paper Machine`} description={`Technical specifications for ${product.title}.`}>
+<BaseLayout 
+  title={product.seo?.title || `${product.title} - Hejun Paper Machine`} 
+  description={product.seo?.metaDesc || `Technical specifications for ${product.title}.`}
+  ogImage={product.seo?.opengraphImage?.sourceUrl || product.featuredImage?.node?.source_url}
+  canonicalUrl={product.seo?.canonical}
+>
   <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-[320px_1fr] min-h-screen border-x border-slate-100">
     
     <aside class="bg-slate-50/80 border-r border-slate-200 p-6 lg:p-10 flex-shrink-0">
